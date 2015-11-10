@@ -10,6 +10,7 @@ class PurchaseConfirmation
       "items" => items,
       "total" => order.total
     }
-    Mailer.order_confirmation(order_data).deliver
+    message = {"type" => "purchase_confirmation", "data" => order_data}
+    $redis.publish("email_notifications", message.to_json)
   end
 end
